@@ -1,0 +1,21 @@
+package NongSan.Controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import NongSan.Dao.ProductDao;
+
+@Controller
+public class HomeController {
+	@Autowired
+	ProductDao productDao;
+
+	@RequestMapping("/")
+	public ModelAndView Index() {
+		ModelAndView mv = new ModelAndView("user/index");
+		mv.addObject("x", productDao.getDataProduct());
+		return mv;
+	}
+}
