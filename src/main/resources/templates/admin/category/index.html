@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html
+    lang="en"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="layouts/admin"
+    xmlns:th="http://www.thymeleaf.org"
+>
+    <head>
+        <title>Danh mục</title>
+    </head>
+    <body>
+        <section layout:fragment="content">
+            <h3 class="mb-3">Danh mục</h3>
+            <section class="p-4 shadow rounded">
+                <a
+                    href="#"
+                    class="btn btn-success"
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#createModal"
+                    >+ Thêm</a
+                >
+                <hr />
+                <table id="table_id" class="display fixed">
+                    <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="category : ${categories}">
+                            <tr>
+                                <td th:text="${category.name}"></td>
+                                <td>
+                                    <a
+                                        href="/admin/category/{{_id}}"
+                                        class="me-2 text-warning"
+                                        ><i class="fa-solid fa-pen"></i
+                                    ></a>
+                                    <a
+                                        href="#"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteModal"
+                                        class="me-2 text-danger"
+                                        onclick="$('#delete-id').val('{{_id}}')"
+                                        ><i class="fa-solid fa-trash"></i
+                                    ></a>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Modal -->
+            <div
+                class="modal fade modal-lg"
+                id="createModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Thêm danh mục
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-mdb-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <form
+                            method="post"
+                            action="/admin/category/create"
+                            class="mb-0"
+                            enctype="multipart/form-data"
+                        >
+                            <div class="modal-body">
+                                <div class="form-outline mb-4">
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        class="form-control border"
+                                        required
+                                    />
+                                    <label class="form-label bold" for="desc"
+                                        >Tên
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-mdb-dismiss="modal"
+                                >
+                                    Đóng
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Thêm
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="modal fade"
+                id="deleteModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xoá danh mục
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-mdb-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <form
+                            method="post"
+                            action="/admin/category/delete"
+                            class="mb-0"
+                        >
+                            <div class="modal-body">
+                                <input
+                                    type="hidden"
+                                    name="_id"
+                                    id="delete-id"
+                                />
+                                Bạn có chắc chắn muốn xoá danh mục này không?
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-mdb-dismiss="modal"
+                                >
+                                    Đóng
+                                </button>
+                                <button type="submit" class="btn btn-danger">
+                                    Xoá
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
