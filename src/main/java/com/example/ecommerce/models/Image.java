@@ -21,4 +21,9 @@ public class Image {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Product product;
+
+    public Image(String image, Product product) {
+        this.image = image;
+        this.product = product;
+    }
 }

@@ -4,7 +4,9 @@ import com.example.ecommerce.models.User;
 import com.example.ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,22 +22,26 @@ public class UserController {
     }
 
     @GetMapping
-    public void getAllUsers() {
-         List<User> users = new ArrayList<>();
-         users = userService.getAllUsers();
-         users.forEach(System.out::println);
+    public ModelAndView getAllUsers(Model model) {
+        List<User> users = new ArrayList<>();
+        users = userService.getAllUsers();
+        users.forEach(System.out::println);
+        ModelAndView mv = new ModelAndView("admin/user/index");
+        return mv;
     }
 
     @PostMapping
     public String register(@RequestBody User user) {
-        /* pass JSON
-            {
-                "name": "A",
-                "tel": "xxx",
-                "gender": "nam",
-                "address": "q7",
-                "password": "123"
-            } */
+        /*
+         * pass JSON
+         * {
+         * "name": "A",
+         * "tel": "xxx",
+         * "gender": "nam",
+         * "address": "q7",
+         * "password": "123"
+         * }
+         */
         userService.register(user);
         // replace html here
         return "users";
@@ -48,8 +54,7 @@ public class UserController {
                 user.getName(),
                 user.getTel(),
                 user.getGender(),
-                user.getAddress()
-        );
+                user.getAddress());
 
         return "users";
     }

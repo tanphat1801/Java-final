@@ -134,6 +134,12 @@
                             ><i class="fa-solid fa-chart-bar me-3"></i
                             ><span>Danh mục</span></a
                         >
+                        <a
+                            href="/admin/user"
+                            class="list-group-item list-group-item-action py-2 ripple"
+                            ><i class="fa-solid fa-user me-3"></i
+                            ><span>User</span></a
+                        >
                     </div>
                 </div>
             </nav>
@@ -339,6 +345,7 @@
                 $(`#${hidden}`).val('');
             }
             $(document).ready(function () {
+                $('#table_id').DataTable();
                 setTimeout(function () {
                     $('.toast').hide();
                 }, 4000);
