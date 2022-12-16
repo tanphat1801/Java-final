@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("update User set name=(:name), tel=(:tel), gender=(:gender), address=(:address) where id = (:id)")
     public void updateUser(Long id, String name, String tel, String gender, String address);
+
+    public User findByTel(String tel);
 }

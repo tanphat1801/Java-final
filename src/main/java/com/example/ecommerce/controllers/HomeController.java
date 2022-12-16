@@ -1,13 +1,36 @@
 package com.example.ecommerce.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.ecommerce.models.CustomUserDetails;
+import com.example.ecommerce.services.UserService;
+
 @Controller
 public class HomeController {
-    @GetMapping(value = {"", "/"})
+    private final UserService userService;
+
+    @Autowired
+    public HomeController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user")
+    public ModelAndView user(Model model) {
+        ModelAndView mav = new ModelAndView("client/index");
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        mav.addObject("welcome", user.getUser().getTel());
+        return mav;
+    }
+
+    @GetMapping(value = { "", "/" })
     public ModelAndView index(Model model) {
         ModelAndView mv = new ModelAndView("client/index");
         return mv;

@@ -13,4 +13,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name, tel, address, gender, role, password;
+
+    public User(String tel, String password, String role) {
+        this.tel = tel;
+        this.password = password;
+        this.role = role;
+    }
 }
