@@ -18,12 +18,4 @@ public class EcommerceApplication {
     public static void main(String[] args) {
         SpringApplication.run(EcommerceApplication.class, args);
     }
-
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository users, BCryptPasswordEncoder encoder) {
-        return args -> {
-            users.save(new User("000000", encoder.encode("password"), "ROLE_USER"));
-            users.save(new User("111111", encoder.encode("password"), "ROLE_ADMIN"));
-        };
-    }
 }

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
     <header th:fragment="header">
         <div id="header">
             <div class="row">
                 <div class="span5">
                     <h1>
-                        <a class="logo" href="/"><span>Twitter Bootstrap
-						ecommerce template</span> <img
+                        <a class="logo" href="/"
+                            ><span>Twitter Bootstrap ecommerce template</span>
+                            <img
                                 src="https://ourdesigncenter.net/wp-content/uploads/2020/10/logo-nong-san-3.jpg"
                                 alt="logo"
-                                width="25%"></a>
+                                width="25%"
+                        /></a>
                     </h1>
                 </div>
-
             </div>
         </div>
 
@@ -23,44 +23,56 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
-                    <a data-target=".nav-collapse" data-toggle="collapse"
-                       class="btn btn-navbar"> <span class="icon-bar"></span> <span
-                            class="icon-bar"></span> <span class="icon-bar"></span>
+                    <a
+                        data-target=".nav-collapse"
+                        data-toggle="collapse"
+                        class="btn btn-navbar"
+                    >
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </a>
-                    <div class="nav-collapse">
-                        <ul class="nav">
-                        </ul>
+                    <div class="nav-collapse mr-auto">
+                        <ul class="nav"></ul>
                         <form action="#" class="navbar-search pull-left">
-                            <input type="text" placeholder="Search" class="search-query span2">
+                            <input
+                                type="text"
+                                placeholder="Search"
+                                class="search-query span2"
+                            />
                         </form>
-                        <ul class="nav pull-right">
-                            <li class="dropdown"><a data-toggle="dropdown"
-                                                    class="dropdown-toggle" href="#"><span class="icon-lock"></span>
-                                Đăng nhập <b class="caret"></b></a>
-                                <div class="dropdown-menu">
-                                    <form class="form-horizontal loginFrm">
-                                        <div class="control-group">
-                                            <input type="text" class="span2" id="inputEmail"
-                                                   placeholder="Email">
-                                        </div>
-                                        <div class="control-group">
-                                            <input type="password" class="span2" id="inputPassword"
-                                                   placeholder="Password">
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="checkbox"> <input type="checkbox">
-                                                Remember me
-                                            </label>
-                                            <button type="submit" class="shopBtn btn-block">Sign
-                                                in</button>
-                                        </div>
-                                    </form>
-                                </div></li>
-                        </ul>
+                    </div>
+
+                    <div
+                        th:if="${isAnonymous}"
+                        style="
+                            float: right;
+                            margin-top: 10px;
+                            margin-right: 15px;
+                        "
+                    >
+                        <a th:href="@{/login}">Đăng nhập</a>
+                    </div>
+
+                    <div
+                        th:if="${!isAnonymous}"
+                        style="
+                            float: right;
+                            margin-top: 10px;
+                            margin-right: 15px;
+                        "
+                    >
+                        <p>
+                            Xin chào
+                            <a
+                                th:href="@{/user/profile}"
+                                th:text="${user.getName()}"
+                            ></a
+                            >, <a th:href="@{/logout}">Đăng xuất</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
 </html>

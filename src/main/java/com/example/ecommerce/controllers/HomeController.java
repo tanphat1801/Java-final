@@ -2,6 +2,8 @@ package com.example.ecommerce.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +22,28 @@ public class HomeController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/user")
-    public ModelAndView user(Model model) {
-        ModelAndView mav = new ModelAndView("client/index");
-        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        mav.addObject("welcome", user.getUser().getTel());
-        return mav;
-    }
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    @GetMapping("/user")
+//    public ModelAndView user(Model model) {
+//        ModelAndView mav = new ModelAndView("client/index");
+//        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+//                .getPrincipal();
+//        mav.addObject("welcome", user.getUser().getTel());
+//        return mav;
+//    }
 
     @GetMapping(value = { "", "/" })
     public ModelAndView index(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            model.addAttribute("isAnonymous", true);
+        } else {
+            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+            model.addAttribute("isAnonymous", false);
+            model.addAttribute("user", user.getUser());
+        }
+
         ModelAndView mv = new ModelAndView("client/index");
         return mv;
     }

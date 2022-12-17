@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hồ sơ</title>
+        <!-- MDB -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <section class="vh-100" style="background-color: #f4f5f7">
+            <div class="container py-5 h-100">
+                <div
+                    class="row d-flex justify-content-center align-items-center h-100"
+                >
+                    <div class="col col-lg-6 mb-4 mb-lg-0">
+                        <div class="card mb-3" style="border-radius: 0.5rem">
+                            <div class="row g-0">
+                                <div
+                                    class="col-md-4 bg-info text-center text-white"
+                                    style="
+                                        border-top-left-radius: 0.5rem;
+                                        border-bottom-left-radius: 0.5rem;
+                                    "
+                                >
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
+                                        alt="Avatar"
+                                        class="img-fluid my-5"
+                                        style="width: 80px"
+                                    />
+                                    <div th:object="${user}">
+                                        <h5 th:text="*{name}"></h5>
+                                    </div>
+                                    <button type="button" class="btn btn-light" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                                        Chỉnh sửa 
+                                    </button>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body p-4">
+                                        <h6>Thông tin của bạn</h6>
+                                        <hr class="mt-0 mb-4" />
+                                        <div class="row pt-1">
+                                            <div th:object="${user}" class="col-6 mb-3">
+                                                <h6>Số điện thoại</h6>
+                                                <p th:text="*{tel}" class="text-muted"></p>
+                                                <h6>Địa chỉ</h6>
+                                                <p th:text="*{address}" class="text-muted"></p>
+                                            </div>
+                                            <div th:object="${user}" class="col-6 mb-3">
+                                                <h6>Giới tính</h6>
+                                                <p th:text="*{gender.toString().equals('MALE')} ? 'Nam': 'Nữ'" class="text-muted"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form
+                th:object="${user}"
+                id="edit-form"
+                th:action="@{/user/editProfile}"
+                method="post"
+            >
+                <div class="modal-body">
+                    
+                    <input type="hidden" name="id" th:field="*{id}" />
+
+                    <div class="form-outline mb-4">
+                        <input
+                            th:field="*{name}"
+                            type="text"
+                            name="name"
+                            class="form-control border"
+                            required
+                        />
+                        <span
+                            th:if="${#fields.hasErrors('name')}"
+                            th:errors="*{name}"
+                        ></span>    
+                        <label class="form-label bold" for="desc"
+                            >Tên
+                            <span class="text-danger"
+                                >*</span
+                            ></label
+                        >
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input
+                            th:field="*{tel}"
+                            type="text"
+                            name="tel"
+                            class="form-control border"
+                            required
+                        />
+                        <span
+                            th:if="${#fields.hasErrors('tel')}"
+                            th:errors="*{tel}"
+                        ></span>    
+                        <label class="form-label bold" for="desc"
+                            >Số điện thoại
+                            <span class="text-danger"
+                                >*</span
+                            ></label
+                        >
+                    </div>
+
+                    <fieldset data-role="controlgroup" class="mb-4">
+                        <label>Giới tính:</label><br>
+                        <label for="male">Nam</label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            id="male"
+                            value="male"
+                            checked
+                        />
+                        <label for="female">Nữ</label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            id="female"
+                            value="female"
+                        />
+                    </fieldset>
+                    <span
+                        th:if="${#fields.hasErrors('gender')}"
+                        th:errors="*{gender}"
+                    ></span>
+
+                    <div class="form-outline mb-4">
+                        <input
+                            th:field="*{address}"
+                            type="text"
+                            name="address"
+                            class="form-control border"
+                            required
+                        />
+                        <span
+                            th:if="${#fields.hasErrors('address')}"
+                            th:errors="*{address}"
+                        ></span>    
+                        <label class="form-label bold" for="desc"
+                            >Địa chỉ
+                            <span class="text-danger"
+                                >*</span
+                            ></label
+                        >
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"
+    ></script>
+    </body>
+</html>

@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.example.ecommerce.utils.Gender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,19 +30,19 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUser(int id){
-        return userRepository.findById((long) id);
+    public User getUser(Long id){
+        return userRepository.findById(id).orElse(null);
     }
 
     public void register(User user) {
         if (user.getRole() == null || Objects.equals(user.getRole(), "")) {
-            user.setRole("user");
+            user.setRole("ROLE_USER");
         }
-
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
-    public void updateUser(Long id, String name, String tel, String gender, String address) {
-        System.out.println(id);
+    public void updateUser(Long id, String name, String tel, Gender gender, String address) {
+        System.out.println(id + " " + name + " " + tel + " " + gender + " " + address);
         userRepository.updateUser(id, name, tel, gender, address);
     }
 
@@ -51,8 +54,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String tel) {
         // Kiểm tra xem user có tồn tại trong database không?
         User user = userRepository.findByTel(tel);
-        System.out.println("Tel "+tel);
-        System.out.println(user);
+
         if (user==null) {
             throw new UsernameNotFoundException(tel);
         }

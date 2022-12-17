@@ -1,10 +1,7 @@
 package com.example.ecommerce.controllers;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -43,14 +40,14 @@ public class ProductController {
         ArrayList<Image> imgList = new ArrayList<>();
         for (MultipartFile img : images) {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(img.getOriginalFilename()));
-            Path path = Paths.get("/uploads" + fileName);
+            Path pathCurrent = FileSystems.getDefault().getPath("").toAbsolutePath();
+            Path path = Paths.get(pathCurrent+"/src/main/resources/uploads/"+fileName);
             Files.copy(img.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             imgList.add(new Image(fileName, product));
         }
         product.setImages(imgList);
         System.out.println(product);
         productService.addNewProduct(product);
-        return;
     }
 
     @GetMapping("/{id}")
